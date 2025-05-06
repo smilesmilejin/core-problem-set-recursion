@@ -14,27 +14,13 @@ def factorial(n):
     return n * factorial(n-1)
 
 # reverse
-count = 0
-def reverse(text):
-    if len(text) == 1:
-        return text
-    if not text:
-        return ""
+def reverse(text, output_text="", index=-1):
+    if index == - len(text)- 1:
+        return output_text
     
-    global count
-    
-    text_list = list(text)
+    output_text = output_text + text[index]
 
-    if count == len(text) // 2:
-        return ''.join(text_list)
-    
-    temp = text_list[count]
-    text_list[count]= text_list[- count - 1]
-    text_list[- count - 1] = temp
-
-    count += 1
-
-    return reverse(text_list)
+    return reverse(text, output_text, index-1)
 
 # bunny
 def bunny(count):
@@ -44,18 +30,12 @@ def bunny(count):
     return bunny(count-1) + 2
 
 # is_nested_parens
-def is_nested_parens(parens):
-    return calculate_count(parens)
-
-def calculate_count(parens, count=0, index=0):
-    if index == len(parens):
+def is_nested_parens(parens,count=0):
+    if not parens:
         return count == 0
     if count < 0:
         return False
-    
-    if parens[index] == '(':
-        count += 1
-    elif parens[index]== ')':
-        count -= 1
-
-    return calculate_count(parens, count, index+1)
+    if parens[0] == '(':
+        return is_nested_parens(parens[1:], count+1)
+    elif parens[0]== ')':
+        return is_nested_parens(parens[1:], count-1)
